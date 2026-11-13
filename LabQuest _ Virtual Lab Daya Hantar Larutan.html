@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LabQuest | Daya Hantar Listrik Larutan</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#eef4f2;--sf:#fff;--ink:#14293a;--mu:#5a6b75;--tl:#0a8a82;--ts:#dff1ee;--ln:#d5dfdb;--nv:#15324a;--am:#f5b82e;--on:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1820;--sf:#13252f;--ink:#e6f0ef;--mu:#9db1b8;--tl:#35c8bc;--ts:#17383d;--ln:#26404b;--nv:#0f3a4f;--on:#04282a}}
+:root[data-theme="dark"]{--bg:#0b1820;--sf:#13252f;--ink:#e6f0ef;--mu:#9db1b8;--tl:#35c8bc;--ts:#17383d;--ln:#26404b;--nv:#0f3a4f;--on:#04282a}
+*{box-sizing:border-box}html{scroll-padding-top:calc(80px + env(safe-area-inset-top,0px));scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.7 Poppins,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;transition:background .3s,color .3s}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:20}
+.wrap{width:min(1060px,100% - 32px);margin:auto}
+#bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--ln)}
+#bar .wrap{display:flex;align-items:center;gap:8px;padding:10px 0}
+.brand{flex:none;display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em;cursor:pointer;border:0;background:none;color:var(--ink);font-family:inherit;font-size:1rem}
+.mark{width:32px;height:32px;border-radius:10px;background:var(--tl);color:var(--on);display:grid;place-items:center;font-size:16px}
+#dots{flex:1;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}#dots::-webkit-scrollbar{display:none}
+.dot{flex:none;border:0;background:none;color:var(--mu);border-radius:999px;padding:7px 13px;font:500 .82rem Poppins,system-ui;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s}
+.dot:hover{background:var(--ts);color:var(--ink)}.dot.on{background:var(--nv);color:#fff}.dot.done:not(.on){color:var(--tl)}.dot.done:not(.on)::after{content:" ✓";font-size:.75em}
+#theme{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--ln);background:var(--sf);color:var(--ink);cursor:pointer;font-size:1rem}
+#prog{height:4px;background:var(--ln)}#prog i{display:block;height:100%;width:0;background:var(--tl);transition:width .4s}
+.stage{display:none;padding:28px 0 56px}.stage.on{display:block;animation:fade .3s}@keyframes fade{from{opacity:0}}
+.hero{background:var(--nv);color:#fff;border-radius:28px;padding:clamp(26px,5vw,56px);position:relative;overflow:hidden;isolation:isolate;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
+.hero h1{font-size:clamp(1.9rem,4.6vw,3rem);line-height:1.1;letter-spacing:-.04em;font-weight:700;margin:0 0 12px}.hero p{margin:0 0 10px;color:#d9ebe7;max-width:520px}
+.hero .lead{font-weight:600;color:#fff;font-size:1.08rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px}.chips span{border:1px solid #ffffff55;border-radius:999px;padding:4px 13px;font-size:.8rem}
+.hv{position:relative;height:230px}.hv .b{position:absolute;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffffff66,#35c8bc33);border:1px solid #ffffff44;animation:fl 6s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-16px)}}.hv .bulb{position:absolute;left:50%;top:50%;width:92px;height:92px;margin:-46px;border-radius:50%;background:var(--am);box-shadow:0 0 0 14px #f5b82e33,0 0 60px 20px #f5b82e88;display:grid;place-items:center;font-size:2.2rem;cursor:pointer;border:0;transition:transform .2s}.hv .bulb:active{transform:scale(.92)}
+.hv .bulb.off{background:#2b4a5d;box-shadow:none;filter:grayscale(1)}
+h2{font-size:clamp(1.3rem,2.6vw,1.7rem);letter-spacing:-.03em;margin:2px 0 10px;line-height:1.25;font-weight:700}h3{margin:22px 0 8px;font-size:1.02rem;font-weight:600}
+.kick{font-size:.85rem;font-weight:600;color:var(--tl);margin-bottom:2px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:22px;padding:clamp(18px,3.5vw,34px)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.tile{border:1px solid var(--ln);background:var(--sf);border-radius:16px;padding:16px;text-align:left;color:var(--ink);font:inherit;position:relative}
+button.tile{cursor:pointer;transition:border-color .2s,transform .2s,background .2s}button.tile:hover{transform:translateY(-3px);border-color:var(--tl)}
+.tile .ic{display:inline-grid;place-items:center;min-width:34px;height:34px;padding:0 6px;margin-bottom:8px;border-radius:10px;background:var(--ts);color:var(--tl);font-weight:700;font-size:.85rem}
+.tile b{display:block;font-weight:600}.tile small{color:var(--mu);font-size:.82rem;line-height:1.4;display:block}
+.tile.ok,.tile.seen{border-color:var(--tl);background:var(--ts)}.tile.ok .ic{background:var(--tl);color:var(--on)}.tile.ok .ic::after{content:"✓"}.tile.ok .ic span{display:none}
+.tile.seen::after{content:"✓";position:absolute;right:14px;top:12px;color:var(--tl);font-weight:700}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;background:var(--tl);color:var(--on);font:600 .95rem Poppins,system-ui;padding:12px 20px;cursor:pointer;text-decoration:none;transition:transform .15s,filter .15s}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}.btn:active{transform:scale(.97)}.btn.alt{background:var(--ts);color:var(--ink)}.btn.sm{padding:8px 14px;font-size:.85rem}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:26px;flex-wrap:wrap}
+.call{background:var(--ts);border-left:4px solid var(--tl);border-radius:6px 14px 14px 6px;padding:12px 16px;margin:16px 0}
+.eq{font-weight:600;background:var(--bg);border-radius:10px;padding:8px 12px;display:inline-block}
+ol.flow{list-style:none;padding:0;margin:0}ol.flow li{position:relative;padding:8px 10px 8px 56px;margin-bottom:4px;border-radius:12px;cursor:pointer;transition:background .2s;min-height:48px}
+ol.flow li:hover{background:var(--ts)}ol.flow li::before{content:attr(data-n);position:absolute;left:8px;top:8px;width:32px;height:32px;border-radius:10px;background:var(--ts);color:var(--tl);display:grid;place-items:center;font-weight:700;font-size:.85rem;transition:background .2s}
+ol.flow li.dn{color:var(--mu);text-decoration:line-through}ol.flow li.dn::before{content:"✓";background:var(--tl);color:var(--on)}
+.stepnum{display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:9px;background:var(--nv);color:#fff;font-weight:700;margin-right:8px;font-size:.9rem}
+.lab{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin:16px 0;align-items:start}
+.cvw{background:linear-gradient(var(--bg),var(--ts));border:1px solid var(--ln);border-radius:18px;padding:6px}#lab{width:100%;height:auto;display:block}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.seg button{flex:1;min-width:90px;border:1.5px solid var(--ln);background:var(--sf);color:var(--ink);border-radius:12px;padding:9px 8px;font:500 .88rem Poppins,system-ui;cursor:pointer;transition:all .2s}
+.seg button.on{background:var(--nv);border-color:var(--nv);color:#fff}
+input[type=range]{width:100%;padding:0;border:0;accent-color:var(--tl);height:28px}
+.read{display:grid;gap:8px;margin-top:12px}.read div{background:var(--ts);border-radius:12px;padding:9px 13px;font-size:.88rem}.read b{display:block;font-weight:600;font-size:.95rem}
+.q{display:flex;gap:8px;flex-wrap:wrap}.q button{flex:1;min-width:150px;border:1.5px solid var(--ln);background:var(--sf);color:var(--ink);border-radius:12px;padding:10px 12px;font:500 .88rem Poppins,system-ui;cursor:pointer;transition:all .2s}
+.q button:hover{border-color:var(--tl)}.q button.good{background:var(--tl);color:var(--on);border-color:var(--tl)}.q button.bad{border-color:#d1495b;background:#d1495b22}
+.pc{border:1.5px solid var(--ln);background:var(--sf);color:var(--ink);border-radius:999px;padding:7px 14px;font:500 .85rem Poppins,system-ui;cursor:pointer;margin:0 6px 6px 0}.pc:hover{border-color:var(--tl);background:var(--ts)}
+label{display:block;font-weight:500;margin:14px 0 5px;font-size:.92rem}input,textarea{width:100%;padding:10px 13px;border:1.5px solid var(--ln);border-radius:12px;background:var(--sf);color:var(--ink);font:inherit;transition:border-color .2s}textarea{min-height:76px;resize:vertical}
+input:focus,textarea:focus{border-color:var(--tl)}input:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,li:focus-visible{outline:3px solid var(--tl);outline-offset:2px}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:520px}th,td{border:1px solid var(--ln);padding:8px;text-align:left}th{background:var(--ts);font-weight:600}
+.sim{width:100%;height:560px;border:1px solid var(--ln);border-radius:16px;background:#fff}.muted{color:var(--mu);font-size:.88rem}
+.bar{height:10px;background:var(--ln);border-radius:9px;overflow:hidden;max-width:420px}.bar i{display:block;height:100%;width:0;background:var(--tl);transition:width .5s}
+#ck{list-style:none;padding:0;margin:16px 0}#ck li{padding:6px 0;color:var(--mu)}#ck li.y{color:var(--ink);font-weight:500}#ck li::before{content:"○";margin-right:10px;color:var(--mu)}#ck li.y::before{content:"✓";color:var(--tl);font-weight:700}
+details{border:1px solid var(--ln);border-radius:14px;padding:12px 16px;margin:10px 0;background:var(--sf)}summary{font-weight:600;cursor:pointer}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--nv);color:#fff;padding:10px 20px;border-radius:999px;font-size:.88rem;opacity:0;pointer-events:none;transition:all .3s;z-index:30}#toast.on{opacity:1;transform:translate(-50%,0)}
+@media(max-width:760px){.hero,.lab,.g2,.g3{grid-template-columns:1fr}.g4{grid-template-columns:1fr 1fr}.hv{height:150px}.hv .bulb{width:70px;height:70px;margin:-35px;font-size:1.7rem}.brandname{display:none}.sim{height:480px}.stage{padding:18px 0 36px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{#bar,#toast,.nav,.no-print,.sim{display:none!important}.stage{display:block!important}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div id="bar"><div class="wrap"><button class="brand" onclick="go(0)" aria-label="Beranda LabQuest"><span class="mark" aria-hidden="true">⚗</span><span class="brandname">LabQuest</span></button><div id="dots"></div><button id="theme" onclick="tg()" aria-label="Ganti tema terang/gelap">◐</button></div><div id="prog"><i id="pb"></i></div></div>
+<main class="wrap">
+
+<section class="stage" id="menu">
+ <div class="hero"><div>
+  <h1>Uji Daya Hantar Larutan</h1>
+  <p class="lead">Garam atau gula: mana yang membuat lampu menyala?</p>
+  <p>Selidiki dua larutan dengan simulasi PhET. Amati lampu dan partikelnya, lalu susun kesimpulan dari bukti yang kamu lihat sendiri.</p>
+  <div class="chips"><span>2 × 45 menit</span><span>Praktikum virtual</span><span>Kelompok 3–4 siswa</span></div>
+  <button class="btn" onclick="go(1)">Mulai misi</button> <button class="btn alt" onclick="go(1);setTimeout(()=>$('lab').scrollIntoView({block:'center'}),350)">Coba mini lab</button></div>
+  <div class="hv" aria-hidden="true"><i class="b" style="width:70px;height:70px;left:6%;top:8%"></i><i class="b" style="width:40px;height:40px;right:10%;top:4%;animation-delay:-2s"></i><i class="b" style="width:54px;height:54px;right:4%;bottom:6%;animation-delay:-4s"></i><i class="b" style="width:30px;height:30px;left:14%;bottom:8%;animation-delay:-1s"></i><button class="bulb" id="hb" onclick="this.classList.toggle('off')" tabindex="-1">💡</button></div></div>
+ <h3>Perjalanan praktikum</h3><p class="muted" style="margin-top:-4px">Ketuk tahap mana pun, atau gunakan tombol panah kiri dan kanan di keyboard.</p>
+ <div class="g4" id="map"></div>
+</section>
+
+<section class="stage" id="materi"><div class="card">
+ <div class="kick">Tahap 1 • Konsep</div><h2>Mengapa hasil kedua larutan berbeda?</h2>
+ <div class="g2">
+  <div class="tile"><b>Garam (NaCl)</b>Ketika larut, garam terurai menjadi ion natrium dan ion klorida yang bergerak di dalam air.<p><b class="eq">NaCl(s) → Na⁺(aq) + Cl⁻(aq)</b></p>Ion-ion ini membawa muatan listrik sehingga larutan garam dapat menghantarkan listrik.</div>
+  <div class="tile"><b>Gula</b>Gula larut sebagai molekul netral dan tidak menghasilkan ion dalam jumlah berarti. Karena itu, larutan gula merupakan nonelektrolit dalam kondisi praktikum ini.</div>
+ </div>
+ <h3>Mini lab: coba sendiri</h3><p class="muted" style="margin-top:-4px">Pilih zat, geser konsentrasi, lalu tambah air. Perhatikan lampu dan partikelnya.</p>
+ <div class="lab"><div class="cvw"><canvas id="lab" width="320" height="250" aria-label="Simulasi mini larutan dengan lampu uji"></canvas></div>
+  <div><div class="seg" id="seg"><button data-m="salt" class="on">Garam</button><button data-m="sugar">Gula</button><button data-m="water">Air murni</button></div>
+   <label for="cc" style="margin-top:0">Konsentrasi: <b id="cv">50%</b></label><input id="cc" type="range" min="5" max="100" value="50">
+   <button class="btn alt sm" id="dil">＋ Tambah air</button>
+   <div class="read"><div>Lampu<b id="r1"></b></div><div>Partikel<b id="r2"></b></div><div>Jenis larutan<b id="r3"></b></div></div></div></div>
+ <h3>Cek pemahaman</h3><p>Gula larut dalam air. Apakah larutan gula pasti menghantarkan listrik?</p>
+ <div class="q" id="quiz"><button data-a="0">Ya, karena larut</button><button data-a="1">Tidak, karena tidak ada ion bebas</button><button data-a="0">Tergantung warna larutan</button></div><p id="qf" class="muted" role="status"></p>
+ <div class="call"><b>Ingat:</b> larut dalam air tidak selalu berarti dapat menghantarkan listrik. Daya hantar larutan bergantung pada keberadaan partikel bermuatan yang dapat bergerak.</div>
+</div></section>
+
+<section class="stage" id="tujuan"><div class="card">
+ <div class="kick">Tahap 2 • Tujuan Percobaan</div><h2>Selamat datang di Virtual Lab Kimia!</h2>
+ <p>Dalam kegiatan ini, kalian bertindak sebagai peneliti. Kalian akan membandingkan dua zat yang sama-sama larut dalam air, tetapi dapat menunjukkan kemampuan menghantarkan listrik yang berbeda.</p>
+ <div class="g2">
+  <div class="tile"><b>Tujuan pembelajaran</b>Setelah praktikum, siswa mampu membandingkan daya hantar listrik larutan garam dan gula serta mengaitkannya dengan keberadaan ion yang bergerak bebas.</div>
+  <div class="tile"><b>Pertanyaan penyelidikan</b>Apakah semua zat yang larut dalam air dapat menghantarkan listrik? Bukti apa yang dapat mendukung jawaban kalian?</div></div>
+ <h3>Prediksi awal</h3><p class="muted">Sebelum menjalankan simulasi, pilih dugaan kalian lalu lengkapi alasannya.</p>
+ <div id="pcs"><button class="pc">Hanya garam yang menghantarkan</button><button class="pc">Hanya gula yang menghantarkan</button><button class="pc">Keduanya menghantarkan</button><button class="pc">Tidak ada yang menghantarkan</button></div>
+ <label for="prediksi">Menurut saya…</label><textarea id="prediksi" placeholder="Saya memperkirakan larutan ... karena ..."></textarea>
+ <div class="call"><b>Aturan ilmiah:</b> catat apa yang benar-benar terlihat pada simulasi. Jangan mengubah hasil pengamatan hanya agar sesuai dengan prediksi awal.</div>
+</div></section>
+
+<section class="stage" id="alat"><div class="card">
+ <div class="kick">Tahap 3 • Alat & Bahan</div><h2>Siapkan perlengkapanmu</h2>
+ <p class="muted">Ketuk setiap item untuk memeriksanya.</p>
+ <div class="g4" id="tools"></div>
+ <div class="bar" style="margin-top:18px"><i id="tb"></i></div><p id="toolmsg" class="muted" role="status"></p>
+</div></section>
+
+<section class="stage" id="alur"><div class="card">
+ <div class="kick">Tahap 4 • Alur Percobaan</div><h2>Langkah-langkah praktikum</h2>
+ <p class="muted">Ketuk langkah yang sudah selesai kamu kerjakan. <b id="fc">0 dari 10 langkah selesai.</b></p>
+ <h3><span class="stepnum">A</span>Percobaan larutan garam</h3>
+ <ol class="flow"><li data-n="1">Buka simulasi dan pilih zat terlarut <b>Salt</b> (garam).</li><li data-n="2">Masukkan garam ke dalam air sesuai petunjuk guru dan kontrol yang tersedia.</li><li data-n="3">Amati apakah zat larut dan perhatikan indikator lampu pada alat penguji.</li><li data-n="4">Jika tampilan mikroskopis tersedia, amati jenis partikel dalam larutan.</li><li data-n="5">Catat hasil pengamatan pada tabel LKPD.</li></ol>
+ <h3><span class="stepnum">B</span>Percobaan larutan gula</h3>
+ <ol class="flow"><li data-n="1">Kembalikan simulasi ke kondisi awal atau siapkan kondisi pengujian yang setara.</li><li data-n="2">Pilih zat terlarut <b>Sugar</b> (gula), lalu masukkan ke dalam air.</li><li data-n="3">Gunakan kondisi air dan alat uji yang sama seperti pada percobaan garam.</li><li data-n="4">Amati kelarutan, indikator lampu, dan partikel mikroskopis jika tersedia.</li><li data-n="5">Catat hasilnya, kemudian bandingkan dengan percobaan garam.</li></ol>
+ <div class="call"><b>Variabel yang perlu dikendalikan:</b> volume air, alat penguji, dan sedapat mungkin jumlah zat terlarut. Konsentrasi memengaruhi daya hantar listrik. Jangan menyimpulkan bahwa semua larutan garam selalu lebih menghantarkan listrik tanpa mempertimbangkan kondisi percobaan.</div>
+</div></section>
+
+<section class="stage" id="panduan"><div class="card">
+ <div class="kick">Tahap 5 • Panduan Virtual Lab</div><h2>Petunjuk mengenali bagian simulasi</h2>
+ <ul><li>Pilih zat terlarut: gula (<em>sugar</em>) atau garam (<em>salt</em>).</li><li>Amati wadah, air, dan alat uji konduktivitas/lampu.</li><li>Gunakan tampilan mikroskopis jika tersedia untuk melihat partikel.</li><li>Ikuti kontrol yang benar-benar terlihat pada versi simulasi di perangkat kalian.</li></ul>
+ <div class="call">Jika simulasi tidak tampil di dalam halaman, gunakan tombol “Buka simulasi PhET di tab baru” pada tahap praktikum.</div>
+</div></section>
+
+<section class="stage" id="praktikum"><div class="card">
+ <div class="kick">Tahap 6 • Praktikum</div><h2>Jalankan simulasi PhET</h2>
+ <p>Gunakan simulasi <em>Sugar and Salt Solutions</em> untuk menguji larutan garam dan gula.</p>
+ <p class="no-print"><a class="btn" href="https://phet.colorado.edu/sims/cheerpj/sugar-and-salt-solutions/latest/sugar-and-salt-solutions.html?simulation=sugar-and-salt-solutions" target="_blank" rel="noopener">Buka simulasi PhET di tab baru ↗</a></p>
+ <iframe class="sim" title="Simulasi PhET Sugar and Salt Solutions" src="https://phet.colorado.edu/sims/cheerpj/sugar-and-salt-solutions/latest/sugar-and-salt-solutions.html?simulation=sugar-and-salt-solutions" allowfullscreen loading="lazy"></iframe>
+ <p class="muted">Jika simulasi tidak tampil di dalam halaman, gunakan tombol “Buka simulasi PhET di tab baru”. Beberapa browser atau pengaturan keamanan membatasi konten yang disematkan.</p>
+</div></section>
+
+<section class="stage" id="lkpd"><div class="card">
+ <div class="kick">Tahap 7 • LKPD Digital & Analisis</div><h2>LKPD Digital</h2>
+ <p class="muted">Isian tersimpan otomatis di perangkat ini. Isi identitas dan tabel berdasarkan pengamatan kelompok kalian.</p>
+ <div class="g2"><div><label for="nama">Nama siswa / ketua kelompok</label><input id="nama" placeholder="Nama lengkap"></div><div><label for="kelas">Kelas / program keahlian</label><input id="kelas" placeholder="Contoh: X Kimia Industri"></div><div><label for="anggota">Anggota kelompok</label><textarea id="anggota" placeholder="Tuliskan nama anggota kelompok"></textarea></div><div><label for="tanggal">Tanggal praktikum</label><input id="tanggal" type="date"></div></div>
+ <h3>Tabel hasil pengamatan</h3><div class="tw"><table><thead><tr><th>Aspek</th><th>Larutan garam</th><th>Larutan gula</th></tr></thead><tbody><tr><td>Apakah zat larut dalam air?</td><td><input id="s1" aria-label="Kelarutan garam" placeholder="Hasil pengamatan"></td><td><input id="g1" aria-label="Kelarutan gula" placeholder="Hasil pengamatan"></td></tr><tr><td>Kondisi lampu / indikator</td><td><input id="s2" aria-label="Lampu garam" placeholder="Catat yang terlihat"></td><td><input id="g2" aria-label="Lampu gula" placeholder="Catat yang terlihat"></td></tr><tr><td>Partikel di dalam larutan</td><td><input id="s3" aria-label="Partikel garam" placeholder="Ion/molekul dan bukti"></td><td><input id="g3" aria-label="Partikel gula" placeholder="Ion/molekul dan bukti"></td></tr><tr><td>Klasifikasi</td><td><input id="s4" aria-label="Klasifikasi garam" placeholder="Elektrolit/nonelektrolit"></td><td><input id="g4" aria-label="Klasifikasi gula" placeholder="Elektrolit/nonelektrolit"></td></tr></tbody></table></div>
+ <h3>Catatan tambahan</h3><label for="catatan">Apa hal menarik atau kendala yang kalian temui?</label><textarea id="catatan" placeholder="Tuliskan catatan kelompok..."></textarea>
+ <h2 style="margin-top:24px">Pertanyaan analisis</h2>
+ <label for="q1">1. Apakah garam dan gula sama-sama larut dalam air? Jelaskan berdasarkan pengamatan.</label><textarea id="q1" placeholder="Jawaban berdasarkan hasil..."></textarea>
+ <label for="q2">2. Apa perbedaan hasil uji daya hantar listrik kedua larutan?</label><textarea id="q2" placeholder="Bandingkan hasil..."></textarea>
+ <label for="q3">3. Mengapa larutan garam dapat menghantarkan listrik?</label><textarea id="q3" placeholder="Jelaskan peran ion yang dapat bergerak..."></textarea>
+ <label for="q4">4. Mengapa larutan gula tidak menghantarkan listrik secara berarti?</label><textarea id="q4" placeholder="Jelaskan bentuk partikel gula di dalam air..."></textarea>
+ <label for="q5">5. Jika air ditambahkan ke larutan garam, bagaimana perubahan konsentrasi dan kemungkinan daya hantarnya?</label><textarea id="q5" placeholder="Jelaskan dengan konsep pengenceran..."></textarea>
+ <label for="q6">6. Tuliskan satu contoh manfaat pemahaman elektrolit dalam bidang keahlian atau kehidupan sehari-hari.</label><textarea id="q6" placeholder="Hubungkan dengan otomotif, industri, lingkungan, atau kehidupan sehari-hari..."></textarea>
+</div></section>
+
+<section class="stage" id="selesai"><div class="card">
+ <div class="kick">Tahap 8 • Selesai</div><h2>Kesimpulan dan pengumpulan</h2>
+ <p>Kelengkapan LKPD: <b id="comp">0</b></p><div class="bar"><i id="pb2"></i></div>
+ <label for="kesimpulan">Kesimpulan kelompok</label><textarea id="kesimpulan" placeholder="Tuliskan kesimpulan dengan menyebutkan hasil pengamatan dan alasan ilmiahnya..."></textarea>
+ <h3>Periksa sebelum mengumpulkan</h3><ul id="ck"></ul>
+ <p class="no-print"><button class="btn" onclick="copyA()">Salin semua jawaban</button> <button class="btn alt" onclick="window.print()">Cetak / simpan PDF</button></p>
+ <p id="status" class="muted" role="status" aria-live="polite"></p>
+ <p class="muted">Penting: halaman ini tidak mengirim jawaban secara otomatis. Setelah menyalin, tempelkan ke Google Forms, Google Classroom, atau dokumen yang ditentukan guru.</p>
+ <h3>Tempat pengumpulan tugas</h3><p>Guru dapat menambahkan tautan Google Form/Google Classroom di sini sebelum membagikan situs kepada siswa.</p>
+ <label for="submissionLink">Tautan pengumpulan dari guru (opsional)</label><input id="submissionLink" type="url" placeholder="Tempel tautan Google Form atau Classroom">
+ <p class="no-print"><button class="btn alt" onclick="openSub()">Buka tautan pengumpulan</button></p>
+ <details><summary>Contoh jawaban kesimpulan (buka setelah diskusi)</summary><p>Garam dan gula sama-sama dapat larut dalam air, tetapi daya hantar listrik larutannya berbeda. Garam menghasilkan ion yang dapat bergerak bebas sehingga larutannya menghantarkan listrik. Gula tetap berupa molekul netral dan tidak menghasilkan ion dalam jumlah berarti, sehingga larutannya tidak menghantarkan listrik secara berarti.</p></details>
+ <details><summary>Panduan guru: pengumpulan dan penilaian</summary><p><b>Alur yang disarankan:</b> siswa mengisi LKPD → menekan “Salin semua jawaban” → menempelkan jawaban ke Google Form atau Classroom → guru menilai laporan.</p><div class="tw"><table><thead><tr><th>Aspek</th><th>Bobot</th></tr></thead><tbody><tr><td>Ketepatan prosedur dan kerja sama</td><td>20%</td></tr><tr><td>Kelengkapan data pengamatan</td><td>25%</td></tr><tr><td>Analisis dan penjelasan konsep</td><td>30%</td></tr><tr><td>Kesimpulan berdasarkan bukti</td><td>25%</td></tr><tr><th>Total</th><th>100%</th></tr></tbody></table></div></details>
+</div></section>
+</main>
+<div id="toast" role="status"></div>
+
+<script>
+const S=[["menu","Beranda"],["materi","Konsep"],["tujuan","Tujuan"],["alat","Perlengkapan"],["alur","Langkah"],["panduan","Panduan"],["praktikum","Praktikum"],["lkpd","LKPD"],["selesai","Selesai"]];
+const NX={5:"Masuk lab",6:"Ke LKPD",7:"Selesai"};
+let cur=0,seen=new Set([0]);const $=id=>document.getElementById(id);
+const ls={g(k){try{return localStorage.getItem(k)}catch(e){return null}},s(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+function toast(t){const e=$("toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("on"),2200)}
+$("dots").innerHTML=S.slice(1).map((s,i)=>`<button class="dot" onclick="go(${i+1})">${s[1]}</button>`).join("");
+document.querySelectorAll(".stage:not(#menu) .card").forEach(c=>{const i=S.findIndex(s=>s[0]===c.parentNode.id);c.insertAdjacentHTML("beforeend",`<div class="nav no-print"><button class="btn alt" onclick="go(${i-1})">◀ Kembali</button>${i<8?`<button class="btn" onclick="go(${i+1})">${NX[i]||"Lanjut"} ▶</button>`:`<button class="btn alt" onclick="go(0)">↺ Menu utama</button>`}</div>`)});
+const HINT=["Pahami konsep kunci","Tentukan target belajarmu","Cek semua perlengkapan","Ikuti urutan percobaan","Kenali kontrol simulasi","Uji garam dan gula","Catat bukti dan analisis","Rangkum hasil investigasi"];
+function map(){$("map").innerHTML=S.slice(1).map((s,i)=>`<button class="tile ${seen.has(i+1)?"seen":""}" onclick="go(${i+1})"><span class="ic">${i+1}</span><b>${s[1]}</b><small>${HINT[i]}</small></button>`).join("")}
+function go(i){if(i<0||i>8)return;cur=i;seen.add(i);S.forEach((s,k)=>$(s[0]).classList.toggle("on",k===i));
+ const d=$("dots").children;[...d].forEach((b,k)=>{b.classList.toggle("on",k+1===i);b.classList.toggle("done",k+1!==i&&seen.has(k+1))});
+ if(i>0)d[i-1].scrollIntoView({inline:"center",block:"nearest"});
+ $("pb").style.width=(i/8*100)+"%";map();if(i===8)comp();
+ try{history.replaceState(null,"","#"+S[i][0])}catch(e){}window.scrollTo({top:0,behavior:"smooth"})}
+addEventListener("hashchange",()=>{const h=S.findIndex(s=>s[0]===location.hash.slice(1));if(h>=0&&h!==cur)go(h)});
+addEventListener("keydown",e=>{if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||e.target.isContentEditable||e.metaKey||e.ctrlKey||e.altKey)return;if(e.key==="ArrowRight")go(cur+1);if(e.key==="ArrowLeft")go(cur-1)});
+/* theme */
+function tg(){const r=document.documentElement,dk=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;r.dataset.theme=dk?"light":"dark";ls.s("lqt",r.dataset.theme)}
+{const t=ls.g("lqt");if(t)document.documentElement.dataset.theme=t}
+/* tools */
+const T=[["PC","Komputer / HP","dengan internet"],["WEB","Simulasi PhET","Sugar and Salt Solutions"],["H₂O","Air","dalam simulasi"],["NaCl","Garam (salt)","dalam simulasi"],["C₁₂","Gula (sugar)","dalam simulasi"],["UJI","Alat uji lampu","dalam simulasi"],["LKPD","LKPD digital","halaman ini"],["CAT","Alat tulis","untuk catatan"]];
+$("tools").innerHTML=T.map(t=>`<button class="tile" aria-pressed="false" onclick="this.classList.toggle('ok');this.setAttribute('aria-pressed',this.classList.contains('ok'));chk()"><span class="ic"><span>${t[0]}</span></span><b>${t[1]}</b><small>${t[2]}</small></button>`).join("");
+function chk(){const n=document.querySelectorAll("#tools .ok").length;$("tb").style.width=n/T.length*100+"%";$("toolmsg").textContent=n===T.length?"Semua siap. Saatnya mulai!":n+" dari "+T.length+" item sudah diperiksa.";if(n===T.length)toast("🎉 Perlengkapan lengkap!")}
+/* steps */
+document.querySelectorAll("ol.flow li").forEach(li=>{li.tabIndex=0;li.setAttribute("role","checkbox");li.setAttribute("aria-checked","false")});
+function tgl(li){li.classList.toggle("dn");li.setAttribute("aria-checked",li.classList.contains("dn"));const n=document.querySelectorAll("ol.flow .dn").length;$("fc").textContent=n+" dari 10 langkah selesai.";if(n===10)toast("✅ Semua langkah selesai")}
+document.addEventListener("click",e=>{const l=e.target.closest("ol.flow li");if(l)tgl(l)});
+document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches("ol.flow li")){e.preventDefault();tgl(e.target)}});
+/* prediction + quiz */
+$("pcs").onclick=e=>{if(!e.target.matches(".pc"))return;const p=$("prediksi");p.value="Saya memperkirakan: "+e.target.textContent.toLowerCase()+", karena ";p.focus();p.dispatchEvent(new Event("input",{bubbles:true}))};
+$("quiz").onclick=e=>{const b=e.target.closest("button");if(!b)return;const ok=b.dataset.a==="1";b.classList.add(ok?"good":"bad");$("qf").textContent=ok?"Tepat! Tanpa ion yang bergerak bebas, tidak ada muatan yang dapat membawa arus.":"Belum tepat. Coba lagi: apa yang membawa muatan di dalam larutan?"};
+/* mini lab */
+const cv=$("lab"),cx=cv.getContext("2d");let mode="salt",conc=50,P=[],glow=0;
+function seed(){const n=mode==="water"?0:Math.round(conc*.7)+6,ion=mode==="salt";P=[];for(let i=0;i<n;i++)P.push({x:70+Math.random()*180,y:120+Math.random()*100,vx:(Math.random()-.5)*(ion?2.4:.8),vy:(Math.random()-.5)*(ion?2.4:.8),t:ion?(i%2?1:-1):0})}
+function info(){const on=mode==="salt",b=on?(conc>66?"Menyala terang":conc>28?"Menyala redup":"Menyala sangat redup"):"Padam";$("r1").textContent=b;$("r2").textContent=mode==="salt"?"Ion Na⁺ dan Cl⁻ bergerak bebas":mode==="sugar"?"Molekul gula netral":"Hanya molekul air";$("r3").textContent=mode==="salt"?"Elektrolit":mode==="sugar"?"Nonelektrolit":"Tidak ada zat terlarut";$("cv").textContent=conc+"%";$("cc").disabled=mode==="water"}
+$("seg").onclick=e=>{const b=e.target.closest("button");if(!b)return;mode=b.dataset.m;[...$("seg").children].forEach(x=>x.classList.toggle("on",x===b));seed();info()};
+$("cc").oninput=e=>{conc=+e.target.value;seed();info()};
+$("dil").onclick=()=>{conc=Math.max(5,Math.round(conc*.6));$("cc").value=conc;seed();info();toast("Air ditambah: konsentrasi turun")};
+function draw(){requestAnimationFrame(draw);if(cur!==1)return;const st=getComputedStyle(document.documentElement),ink=st.getPropertyValue("--ink").trim()||"#14293a";
+ const tgt=mode==="salt"?.2+conc/100*.8:0;glow+=(tgt-glow)*.06;cx.clearRect(0,0,320,250);
+ cx.strokeStyle=ink;cx.lineWidth=2.5;cx.lineJoin="round";
+ cx.beginPath();cx.moveTo(108,70);cx.lineTo(108,170);cx.moveTo(212,70);cx.lineTo(212,170);cx.moveTo(108,70);cx.lineTo(108,52);cx.lineTo(140,52);cx.moveTo(212,70);cx.lineTo(212,52);cx.lineTo(180,52);cx.stroke();
+ if(glow>.02){const g=cx.createRadialGradient(160,40,4,160,40,20+glow*50);g.addColorStop(0,"rgba(255,214,90,"+glow+")");g.addColorStop(1,"rgba(255,214,90,0)");cx.fillStyle=g;cx.fillRect(60,0,200,110)}
+ cx.beginPath();cx.arc(160,40,19,0,7);cx.fillStyle=glow>.02?"rgba(255,206,60,"+(.35+glow*.65)+")":"rgba(120,140,150,.35)";cx.fill();cx.stroke();cx.strokeRect(150,56,20,8);
+ cx.fillStyle="rgba(70,160,230,.30)";cx.fillRect(52,112,216,108);cx.beginPath();cx.moveTo(48,96);cx.lineTo(52,224);cx.quadraticCurveTo(54,232,64,232);cx.lineTo(256,232);cx.quadraticCurveTo(266,232,268,224);cx.lineTo(272,96);cx.stroke();
+ P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<60||p.x>260)p.vx*=-1;if(p.y<120||p.y>222)p.vy*=-1;
+  if(p.t){cx.fillStyle=p.t>0?"#e8604c":"#3b82f6";cx.beginPath();cx.arc(p.x,p.y,4.5,0,7);cx.fill()}
+  else{cx.fillStyle="#c9955f";cx.fillRect(p.x-4,p.y-4,8,8)}})}
+seed();info();draw();
+/* LKPD */
+const F=["nama","kelas","anggota","tanggal","prediksi","s1","g1","s2","g2","s3","g3","s4","g4","catatan","q1","q2","q3","q4","q5","q6","kesimpulan"],L={nama:"Nama",kelas:"Kelas/program keahlian",anggota:"Anggota kelompok",tanggal:"Tanggal",prediksi:"Prediksi awal",s1:"Garam: kelarutan",g1:"Gula: kelarutan",s2:"Garam: kondisi lampu",g2:"Gula: kondisi lampu",s3:"Garam: partikel",g3:"Gula: partikel",s4:"Garam: klasifikasi",g4:"Gula: klasifikasi",catatan:"Catatan tambahan",q1:"Analisis 1",q2:"Analisis 2",q3:"Analisis 3",q4:"Analisis 4",q5:"Analisis 5",q6:"Analisis 6",kesimpulan:"Kesimpulan"};
+const CK=[["Identitas kelompok sudah diisi",["nama","kelas","anggota","tanggal"]],["Tabel pengamatan berdasarkan hasil simulasi",["s1","g1","s2","g2","s3","g3","s4","g4"]],["Semua pertanyaan analisis dijawab",["q1","q2","q3","q4","q5","q6"]],["Kesimpulan sesuai dengan bukti pengamatan",["kesimpulan"]]];
+const fl=f=>$(f).value.trim();
+function comp(){const d=F.filter(fl).length;$("comp").textContent=d+" dari "+F.length+" bagian";$("pb2").style.width=(d/F.length*100)+"%";$("ck").innerHTML=CK.map(c=>`<li class="${c[1].every(fl)?"y":""}">${c[0]}</li>`).join("")}
+try{const sv=JSON.parse(ls.g("lq")||"{}");F.forEach(f=>{if(sv[f])$(f).value=sv[f]})}catch(e){}
+document.addEventListener("input",e=>{if(F.includes(e.target.id)){const o={};F.forEach(f=>o[f]=$(f).value);ls.s("lq",JSON.stringify(o));if(cur===8)comp()}});
+function copyA(){const t="LKPD VIRTUAL LAB KIMIA SMK\nPengaruh Jenis Zat Terlarut terhadap Daya Hantar Listrik Larutan\n\n"+F.map(f=>L[f]+": "+(fl(f)||"(belum diisi)")).join("\n\n"),s=$("status");
+ const ok=()=>{s.textContent="Jawaban disalin.";toast("📋 Jawaban disalin")};
+ const fb=()=>{const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");ok()}catch(e){s.textContent="Salin otomatis gagal. Salin manual dari LKPD."}a.remove()};
+ if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(ok).catch(fb);else fb()}
+function openSub(){const v=$("submissionLink").value.trim(),st=$("status");try{const u=new URL(v);if(!/^https?:$/.test(u.protocol))throw 0;window.open(u.href,"_blank","noopener")}catch(e){st.textContent=v?"Tautan tidak valid. Gunakan URL lengkap berawalan https://":"Masukkan tautan pengumpulan dari guru terlebih dahulu."}}
+const h=S.findIndex(s=>s[0]===location.hash.slice(1));go(h>0?h:0);
+</script>
+</body>
+</html>
